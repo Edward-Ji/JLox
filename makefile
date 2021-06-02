@@ -2,7 +2,7 @@ PACKAGE = "com/interpreter/jlox"
 MAIN = "Lox"
 PACKAGE_TOOL = "com/interpreter/tool"
 MAIN_TOOL = "GenerateAst"
-TEST_SCRIPT = "test.lox"
+TEST_SCRIPT = "parse_test1.lox"
 
 all: build run
 

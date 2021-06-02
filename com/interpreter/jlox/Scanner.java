@@ -161,13 +161,14 @@ class Scanner {
     }
 
     // Handle long comments.
+    // TODO: add support for chained ones.
     private void longComment() {
         while (!(peek() == '*' && peekMore() == '/') && !isAtEnd()) {
             if (advance() == '\n') line++;
         }
 
         if (isAtEnd()) {
-            Lox.error(line, "Unterminated multi-line comment.");
+            Lox.error(line, "Unterminated long comment.");
             return;
         }
 
