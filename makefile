@@ -3,15 +3,14 @@ MAIN = "Lox"
 PACKAGE_TOOL = "com/interpreter/tool"
 MAIN_TOOL = "GenerateAst"
 
-all: build
+all: build run
 
 build:
 	javac $(PACKAGE)/*.java
-	java $(PACKAGE)/$(MAIN)
 
 run:
 	java $(PACKAGE)/$(MAIN)
 
-gen:
+codegen:
 	javac $(PACKAGE_TOOL)/*.java
 	java $(PACKAGE_TOOL)/$(MAIN_TOOL) $(PACKAGE)
