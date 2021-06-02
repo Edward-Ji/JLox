@@ -14,3 +14,7 @@ run:
 codegen:
 	javac $(PACKAGE_TOOL)/*.java
 	java $(PACKAGE_TOOL)/$(MAIN_TOOL) $(PACKAGE)
+	rm $(PACKAGE_TOOL)/*.class
+
+clean:
+	rm PACKAGE/*.class
