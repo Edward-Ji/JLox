@@ -85,8 +85,10 @@ class Scanner {
             // Division operator or comment
             case '/':
                 if (match('/')) {
-                    // Skip single line comment.
+                    // Skip single-line comment.
                     while (peek() != '\n' && !isAtEnd()) advance();
+                } else if (match('*')) {
+                    longComment();
                 } else {
                     addToken(SLASH);
                 }
@@ -133,7 +135,7 @@ class Scanner {
 
         // Check for a fractional part.
         if (peek() == '.' && isDigit(peekMore())) {
-            current++;  // consume the full stop
+            advance();  // consume the full stop
             while (isDigit(peek())) advance();
         }
 
@@ -152,10 +154,26 @@ class Scanner {
             return;
         }
 
-        current++;  // skip the closing quotation mark
+        advance();  // skip the closing quotation mark
 
         String value = source.substring(start + 1, current - 1);
         addToken(STRING, value);
+    }
+
+    // Handle long comments.
+    private void longComment() {
+        while (!(peek() == '*' && peekMore() == '/') && !isAtEnd()) {
+            if (advance() == '\n') line++;
+        }
+
+        if (isAtEnd()) {
+            Lox.error(line, "Unterminated multi-line comment.");
+            return;
+        }
+
+        // Comsumer closing characters.
+        advance();
+        advance();
     }
 
     // Only advance and return if next char is as expected.
@@ -163,7 +181,7 @@ class Scanner {
         if (isAtEnd()) return false;
         if (source.charAt(current) != expected) return false;
 
-        current++;
+        advance();
         return true;
     }
 

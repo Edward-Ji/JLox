@@ -2,6 +2,7 @@ PACKAGE = "com/interpreter/jlox"
 MAIN = "Lox"
 PACKAGE_TOOL = "com/interpreter/tool"
 MAIN_TOOL = "GenerateAst"
+TEST_SCRIPT = "test.lox"
 
 all: build run
 
@@ -10,6 +11,9 @@ build:
 
 run:
 	java $(PACKAGE)/$(MAIN)
+
+runscript:
+	java $(PACKAGE)/$(MAIN) $(TEST_SCRIPT)
 
 codegen:
 	javac $(PACKAGE_TOOL)/*.java
