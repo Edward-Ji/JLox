@@ -5,11 +5,14 @@ import java.util.List;
 import static com.interpreter.jlox.TokenType.*;
 
 /*
- * Perform **recursive descent parsing**. Each grammar rule is represented by a
- * method inside this class. The parser is expected to:
+ * The `Parser` class performs **recursive descent parsing**. Each grammar rule
+ * in Lox is represented by a method. 
+ *
+ * The parser is expected to:
  * - Given a valid sequence of tokens, produce a corresponding syntax tree.
  * - Given an invalid sequence of tokens, detect any errors and tell the user
- *   abot their mistakes.
+ *   about their mistakes.
+ *
  * This parser uses **panic mode error recovery** to synchronize.
  */
 
