@@ -84,6 +84,7 @@ class Interpreter implements Expr.Visitor<Object> {
 
             case SLASH:
 			    checkNumberOperands(expr.operator, left, right);
+                checkZeroDivision(expr.operator, right);
                 return (double) left / (double) right;
 
             case BANG_EQUAL:
@@ -100,6 +101,11 @@ class Interpreter implements Expr.Visitor<Object> {
     private void checkNumberOperands(Token operator, Object left, Object right) {
         if (left instanceof Double && right instanceof Double) return;
         throw new RuntimeError(operator, "Operands must be numbers.");
+    }
+
+    private void checkZeroDivision(Token operator, Object divisor) {
+        if ((double) divisor != 0) return;
+        throw new RuntimeError(operator, "Can not divide by zero.");
     }
 
     /*
@@ -145,11 +151,12 @@ class Interpreter implements Expr.Visitor<Object> {
         if (object instanceof Double) {
             String repr = object.toString();
             if (repr.endsWith(".0")) {
+                // Integer represented without '.0'.
                 repr = repr.substring(0, repr.length() - 2);
             }
             return repr;
         }
-
+        
         return object.toString();
     }
 
