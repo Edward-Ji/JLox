@@ -6,7 +6,7 @@ import static com.interpreter.jlox.TokenType.*;
 
 /*
  * The `Parser` class performs **recursive descent parsing**. Each grammar rule
- * in Lox is represented by a method. 
+ * in Lox is represented by a method.
  *
  * The parser is expected to:
  * - Given a valid sequence of tokens, produce a corresponding syntax tree.
@@ -35,7 +35,7 @@ class Parser {
     Expr parse() {
         try {
             return expression();
-        } catch (ParseError errors) {
+        } catch (ParseError e) {
             return null;
         }
     }
