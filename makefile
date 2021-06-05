@@ -12,6 +12,7 @@ JCLASSDIR = com/interpreter/jlox
 JTOOLDIR = com/interpreter/tool
 
 MAIN = $(JCLASSDIR)/Lox
+SCRIPT = test.lox
 
 #
 # Clear any default targets for building .class files from .java files; we
@@ -84,6 +85,9 @@ generate: $(GENERATE).java
 
 run:
 	$(JVM) $(MAIN)
+
+runscript:
+	$(JVM) $(MAIN) $(SCRIPT)
 
 clean:
 	$(RM) *.class

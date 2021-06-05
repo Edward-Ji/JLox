@@ -1,11 +1,18 @@
 package com.interpreter.jlox;
 
+import java.util.List;
+
 /*
  * This class interprets expression and return results in the form of Java
  * Objects. It performs post-order traversal on the expressions.
  */
-class Interpreter implements Expr.Visitor<Object> {
+class Interpreter implements Expr.Visitor<Object>,
+                             Stmt.Visitor<Void> {
 
+    /*
+     * Visitor methods for expressions
+     * ===============================
+     */
     @Override
     public Object visitLiteralExpr(Expr.Literal expr) {
         return expr.value;
@@ -140,8 +147,25 @@ class Interpreter implements Expr.Visitor<Object> {
     }
 
     /*
-     * The method returns a string representation of a given object. The
-     * convertion to string is consistent with Java except for:
+     * Visitor methods for statements
+     * ===============================
+     */
+    @Override
+    public Void visitExpressionStmt(Stmt.Expression stmt) {
+        evaluate(stmt.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitPrintStmt(Stmt.Print stmt) {
+        Object value = evaluate(stmt.expression);
+        System.out.println(stringify(value));
+        return null;
+    }
+
+    /*
+     * The `stringify()` method returns a string representation of a given
+     * object. The convertion to string is consistent with Java except for:
      * - null, which is 'nil' in Lox;
      * - doubles that are actually integers, strip the ending '.0'.
      */
@@ -156,16 +180,30 @@ class Interpreter implements Expr.Visitor<Object> {
             }
             return repr;
         }
-        
+
         return object.toString();
     }
 
-    void interpret(Expr expression) {
+    /*
+     * The `interpret()` method takes in a series of statements (i.e., a
+     * program) and executes them all. It also handles and reports runtime
+     * errors.
+     */
+    void interpret(List<Stmt> statements) {
         try {
-            Object value = evaluate(expression);
-            System.out.println(stringify(value));
+            for (Stmt statement : statements) {
+                execute(statement);
+            }
         } catch (RuntimeError e) {
             Lox.runtimeError(e);
         }
+    }
+
+    /*
+     * The `execute()` helper method takes a single statement and interprets it
+     * using this visitor.
+     */
+    private void execute(Stmt stmt) {
+        stmt.accept(this);
     }
 }

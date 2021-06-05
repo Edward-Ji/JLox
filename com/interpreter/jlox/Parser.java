@@ -1,12 +1,13 @@
 package com.interpreter.jlox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.interpreter.jlox.TokenType.*;
 
 /*
- * The `Parser` class performs **recursive descent parsing**. Each grammar rule
- * in Lox is represented by a method.
+ * The `Parser` class performs **recursive descent parsing** which turns tokens
+ * into statements. Each grammar rule in Lox is represented by a method.
  *
  * The parser is expected to:
  * - Given a valid sequence of tokens, produce a corresponding syntax tree.
@@ -32,12 +33,47 @@ class Parser {
         this.tokens = tokens;
     }
 
-    Expr parse() {
-        try {
-            return expression();
-        } catch (ParseError e) {
-            return null;
+    /*
+     * The `parse()` method parses tokens into statements.
+     *
+     * program → statement* EOF ;
+     */
+    List<Stmt> parse() {
+        List<Stmt> statements = new ArrayList<>();
+
+        while (!isAtEnd()) {
+            statements.add(statement());
         }
+
+        return statements;
+    }
+
+    /*
+     * statement → exprStmt
+     *           | printStmt ;
+     */
+    private Stmt statement() {
+        if (match(PRINT)) return printStatement();
+
+        return expressionStatement();
+    }
+
+    /*
+     * exprStmt → expression ";" ;
+     */
+    private Stmt printStatement() {
+        Expr printExpr = expression();
+        consume(SEMICOLON, "Expect ';' after expression.");
+        return new Stmt.Print(printExpr);
+    }
+
+    /*
+     * printStmt → "print" expression ";" ;
+     */
+    private Stmt expressionStatement() {
+        Expr expr = expression();
+        consume(SEMICOLON, "Expect ';' after expression.");
+        return new Stmt.Expression(expr);
     }
 
     /*
