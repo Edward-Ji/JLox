@@ -1,4 +1,6 @@
 #
+# source: https://www.cs.swarthmore.edu/~newhall/unixhelp/javamakefiles.html
+#
 # define compiler and compiler flag variables
 #
 
