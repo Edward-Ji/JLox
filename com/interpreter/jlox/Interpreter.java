@@ -122,6 +122,13 @@ class Interpreter implements Expr.Visitor<Object>,
         return environment.get(expr.name);
     }
 
+    @Override
+    public Object visitAssignExpr(Expr.Assign expr) {
+        Object value = evaluate(expr.value);
+        environment.assign(expr.name, value);
+        return value;
+    }
+
     /*
      * This method tests if two Java objects are equal is the context of Lox
      * language. It behaves the same as Java `equals()`` test, except that it

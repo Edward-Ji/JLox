@@ -49,6 +49,7 @@ SCRIPT = test.lox
 
 CLASSES = \
 	$(JCLASSDIR)/AstPrinter.java \
+	$(JCLASSDIR)/Environment.java \
 	$(JCLASSDIR)/Expr.java \
 	$(JCLASSDIR)/Interpreter.java \
 	$(JCLASSDIR)/Lox.java \
