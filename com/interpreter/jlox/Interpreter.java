@@ -171,6 +171,12 @@ class Interpreter implements Expr.Visitor<Object>,
     }
 
     @Override
+    public Void visitBlockStmt(Stmt.Block stmt) {
+        executeBlock(stmt.statements, new Environment(environment));
+        return null;
+    }
+
+    @Override
     public Void visitPrintStmt(Stmt.Print stmt) {
         Object value = evaluate(stmt.expression);
         System.out.println(stringify(value));
@@ -230,5 +236,22 @@ class Interpreter implements Expr.Visitor<Object>,
      */
     private void execute(Stmt stmt) {
         stmt.accept(this);
+    }
+
+    /*
+     * The `executeBlock()` method executes a list of statements in the context
+     * of a given environment.
+     */
+    private void executeBlock(List<Stmt> statements, Environment environment) {
+        Environment global = this.environment;
+        try {
+            this.environment = environment;
+
+            for (Stmt statement : statements) {
+                execute(statement);
+            }
+        } finally {
+            this.environment = global;
+        }
     }
 }
