@@ -115,8 +115,8 @@ class Parser {
     }
 
     /*
-    * exprStmt → expression ";" ;
-    */
+     * exprStmt → expression ";" ;
+     */
     private Stmt expressionStatement() {
         Expr expr = expression();
         consume(SEMICOLON, "Expect ';' after expression.");
