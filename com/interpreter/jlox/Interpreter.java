@@ -130,7 +130,7 @@ class Interpreter implements Expr.Visitor<Object>,
     }
 
     /*
-     * This method tests if two Java objects are equal is the context of Lox
+     * This method tests if two Java objects are equal in the context of Lox
      * language. It behaves the same as Java `equals()`` test, except that it
      * also hanldes the case where the left is `null` (or `nil` in Lox).
      */
