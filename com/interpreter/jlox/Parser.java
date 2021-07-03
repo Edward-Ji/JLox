@@ -346,8 +346,8 @@ class Parser {
                     return;
                 }
             }
-        }
 
-        advance();
+            advance();
+        }
     }
 }
